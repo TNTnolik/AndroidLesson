@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Lessen</string>
+    <string name="home">home</string>
+    <string name="second">second</string>
 </resources>
