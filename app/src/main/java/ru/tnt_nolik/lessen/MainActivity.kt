@@ -4,28 +4,46 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tnt_nolik.lessen.ui.HomeScreen.HomeScreen
+import ru.tnt_nolik.lessen.ui.SecondScreen.SecondScreen
 import ru.tnt_nolik.lessen.ui.theme.LessenTheme
+import ru.tnt_nolik.lessen.util.Routes
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
+            val navController = rememberNavController()
+            
             LessenTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
+                Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    floatingActionButton = {
+                        FloatingActionButton(onClick = { navController.navigate(Routes.SECOND) }) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = "Second"
+                            )
+                        }
+                    }
                 ) {
-                    HomeScreen()
+                    NavHost(navController = navController, startDestination = Routes.HOME){
+                        composable(Routes.HOME){ HomeScreen() }
+                        composable(Routes.SECOND){ SecondScreen() }
+                    }
                 }
             }
         }
